@@ -32,11 +32,11 @@ type Invoice struct {
 
 // CreditCard is a struct that represents a credit card
 type CreditCard struct {
-	Number         string
-	CardHolderName string
-	CVV            string
-	ExpirationDate string
-	ExpirationYear string
+	CardNumber      string
+	CardholderName  string
+	CVV             string
+	ExpirationMonth string
+	ExpirationYear  string
 }
 
 // NewInvoice creates a new invoice
@@ -45,7 +45,7 @@ func NewInvoice(accountID string, amount float64, description string, paymentTyp
 		return nil, ErrInvalidAmount
 	}
 
-	lastDigits := card.Number[len(card.Number)-4:]
+	lastDigits := card.CardNumber[len(card.CardNumber)-4:]
 
 	return &Invoice{
 		ID:             uuid.New().String(),
