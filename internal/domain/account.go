@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Account is a struct that represents an account
 type Account struct {
 	ID        string
 	Name      string
@@ -20,12 +21,14 @@ type Account struct {
 	UpdatedAt time.Time
 }
 
+// generateApiKey generates a random API key
 func generateApiKey() string {
 	b := make([]byte, 16)
 	rand.Read(b)
 	return hex.EncodeToString(b)
 }
 
+// NewAccount creates a new account
 func NewAccount(name, email string) *Account {
 
 	account := &Account{
@@ -41,6 +44,7 @@ func NewAccount(name, email string) *Account {
 	return account
 }
 
+// AddBalance adds a balance to the account
 func (a *Account) AddBalance(amount float64) {
 	a.mu.Lock()
 	defer a.mu.Unlock()

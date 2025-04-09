@@ -7,14 +7,17 @@ import (
 	"github.com/devfullcycle/imersao22/go-gateway/internal/domain"
 )
 
+// AccountRepository is a repository for accounts
 type AccountRepository struct {
 	db *sql.DB
 }
 
+// NewAccountRepository creates a new account repository
 func NewAccountRepository(db *sql.DB) *AccountRepository {
 	return &AccountRepository{db: db}
 }
 
+// CreateAccount creates a new account in the database
 func (r *AccountRepository) CreateAccount(account *domain.Account) error {
 	stmt, err := r.db.Prepare(`
 		INSERT INTO accounts (id, name, email, api_key, balance, created_at, updated_at) 
@@ -41,6 +44,7 @@ func (r *AccountRepository) CreateAccount(account *domain.Account) error {
 	return nil
 }
 
+// GetByApiKey retrieves an account by its API key
 func (r *AccountRepository) GetByApiKey(apiKey string) (*domain.Account, error) {
 	var account domain.Account
 	var createdAt, updatedAt time.Time
@@ -70,6 +74,7 @@ func (r *AccountRepository) GetByApiKey(apiKey string) (*domain.Account, error) 
 	return &account, nil
 }
 
+// GetByID retrieves an account by its ID
 func (r *AccountRepository) GetByID(id string) (*domain.Account, error) {
 	var account domain.Account
 	var createdAt, updatedAt time.Time
@@ -99,6 +104,7 @@ func (r *AccountRepository) GetByID(id string) (*domain.Account, error) {
 	return &account, nil
 }
 
+// UpdateBalance updates the balance of an account
 func (r *AccountRepository) UpdateBalance(account *domain.Account) error {
 	tx, err := r.db.Begin()
 	if err != nil {

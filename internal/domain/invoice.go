@@ -7,14 +7,17 @@ import (
 	"github.com/google/uuid"
 )
 
+// Status is a type that represents the status of an invoice
 type Status string
 
+// StatusPending is the status of an invoice that is pending
 const (
 	StatusPending  Status = "pending"
 	StatusApproved Status = "approved"
 	StatusRejected Status = "rejected"
 )
 
+// Invoice is a struct that represents an invoice
 type Invoice struct {
 	ID             string
 	AccountID      string
@@ -27,6 +30,7 @@ type Invoice struct {
 	UpdatedAt      time.Time
 }
 
+// CreditCard is a struct that represents a credit card
 type CreditCard struct {
 	Number         string
 	CardHolderName string
@@ -35,6 +39,7 @@ type CreditCard struct {
 	ExpirationYear string
 }
 
+// NewInvoice creates a new invoice
 func NewInvoice(accountID string, amount float64, description string, paymentType string, card CreditCard) (*Invoice, error) {
 	if amount <= 0 {
 		return nil, ErrInvalidAmount
@@ -55,6 +60,7 @@ func NewInvoice(accountID string, amount float64, description string, paymentTyp
 	}, nil
 }
 
+// Process processes an invoice
 func (i *Invoice) Process() error {
 	if i.Amount <= 10000 {
 		return nil
@@ -74,6 +80,7 @@ func (i *Invoice) Process() error {
 	return nil
 }
 
+// UpdateStatus updates the status of an invoice
 func (i *Invoice) UpdateStatus(newStatus Status) error {
 	if i.Status != string(StatusPending) {
 		return ErrInvalidStatus

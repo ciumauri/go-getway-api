@@ -6,11 +6,13 @@ import (
 	"github.com/devfullcycle/imersao22/go-gateway/internal/domain"
 )
 
+// CreateAccountDTO is a struct that represents a create account request
 type CreateAccountDTO struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 }
 
+// AccountResponseDTO is a struct that represents an account response
 type AccountResponseDTO struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
@@ -21,6 +23,7 @@ type AccountResponseDTO struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+// ToAccountDTO converts a CreateAccountDTO to an Account
 func ToAccountDTO(input CreateAccountDTO) *domain.Account {
 	return domain.NewAccount(
 		input.Name,
@@ -28,6 +31,7 @@ func ToAccountDTO(input CreateAccountDTO) *domain.Account {
 	)
 }
 
+// FromAccountDTO converts an Account to an AccountResponseDTO
 func FromAccountDTO(account *domain.Account) AccountResponseDTO {
 	return AccountResponseDTO{
 		ID:        account.ID,

@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
+// Server is a struct that represents a server
 type Server struct {
 	router         *chi.Mux
 	server         *http.Server
@@ -15,6 +16,7 @@ type Server struct {
 	port           string
 }
 
+// NewServer creates a new server
 func NewServer(accountService *service.AccountService, port string) *Server {
 	return &Server{
 		router:         chi.NewRouter(),
@@ -23,6 +25,7 @@ func NewServer(accountService *service.AccountService, port string) *Server {
 	}
 }
 
+// ConfigureRoutes configures the routes for the server
 func (s *Server) ConfigureRoutes() {
 	accountHandler := handlers.NewAccountHandler(s.accountService)
 
@@ -30,6 +33,7 @@ func (s *Server) ConfigureRoutes() {
 	s.router.Get("/accounts", accountHandler.GetAccount)
 }
 
+// Start starts the server
 func (s *Server) Start() error {
 	s.server = &http.Server{
 		Addr:    ":" + s.port,

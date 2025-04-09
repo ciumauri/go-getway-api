@@ -8,14 +8,17 @@ import (
 	"github.com/devfullcycle/imersao22/go-gateway/internal/account/service"
 )
 
+// AccountHandler is a struct that represents an account handler
 type AccountHandler struct {
 	accountService *service.AccountService
 }
 
+// NewAccountHandler creates a new account handler
 func NewAccountHandler(accountService *service.AccountService) *AccountHandler {
 	return &AccountHandler{accountService: accountService}
 }
 
+// CreateAccount creates a new account
 func (h *AccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	var input dto.CreateAccountDTO
 
@@ -36,6 +39,7 @@ func (h *AccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(output)
 }
 
+// GetAccount gets an account by its API key
 func (h *AccountHandler) GetAccount(w http.ResponseWriter, r *http.Request) {
 	apiKey := r.Header.Get("X-API-Key")
 	if apiKey == "" {
