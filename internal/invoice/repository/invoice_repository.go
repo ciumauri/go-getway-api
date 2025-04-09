@@ -59,3 +59,64 @@ func (r *InvoiceRepository) GetByID(id string) (*domain.Invoice, error) {
 
 	return &invoice, nil
 }
+
+// GetByAccountID retrieves all invoices by account ID
+func (r *InvoiceRepository) GetByAccountID(accountID string) ([]*domain.Invoice, error) {
+	rows, err := r.db.Query(`
+		SELECT id, account_id, amount, status, description, payment_type, card_last_digits, created_at, updated_at 
+		FROM invoices 
+		WHERE account_id = $1
+	`, accountID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var invoices []*domain.Invoice
+	for rows.Next() {
+		var invoice domain.Invoice
+		err := rows.Scan(
+			&invoice.ID,
+			&invoice.AccountID,
+			&invoice.Amount,
+			&invoice.Status,
+			&invoice.Description,
+			&invoice.PaymentType,
+			&invoice.CardLastDigits,
+			&invoice.CreatedAt,
+			&invoice.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+		invoices = append(invoices, &invoice)
+	}
+
+	return invoices, nil
+}
+
+// UpdateStatus updates the status of an invoice
+func (r *InvoiceRepository) UpdateStatus(invoice *domain.Invoice) error {
+	rows, err := r.db.Exec(`
+		UPDATE invoices 
+		SET status = $1, updated_at = $2 
+		WHERE id = $3
+	`, invoice.Status,
+		invoice.UpdatedAt,
+		invoice.ID,
+	)
+	if err != nil {
+		return err
+	}
+
+	rowsAffected, err := rows.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if rowsAffected == 0 {
+		return domain.ErrInvoiceNotFound
+	}
+
+	return nil
+}
