@@ -19,6 +19,8 @@ func NewAccountHandler(accountService *service.AccountService) *AccountHandler {
 }
 
 // CreateAccount creates a new account
+// Endpoint: POST /accounts
+// Method: POST
 func (h *AccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 	var input dto.CreateAccountDTO
 
@@ -40,6 +42,8 @@ func (h *AccountHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetAccount gets an account by its API key
+// Endpoint: GET /accounts
+// Method: GET
 func (h *AccountHandler) GetAccount(w http.ResponseWriter, r *http.Request) {
 	apiKey := r.Header.Get("X-API-Key")
 	if apiKey == "" {

@@ -21,13 +21,13 @@ func NewInvoiceService(invoiceRepository domain.InvoiceRepository, accountServic
 }
 
 // CreateInvoice creates a new invoice
-func (s *InvoiceService) CreateInvoice(input *dto.CreateInvoiceDTO) (*dto.InvoiceResponseDTO, error) {
+func (s *InvoiceService) CreateInvoice(input dto.CreateInvoiceDTO) (*dto.InvoiceResponseDTO, error) {
 	AccountResponseDTO, err := s.accountService.GetByApiKey(input.ApiKey)
 	if err != nil {
 		return nil, err
 	}
 
-	invoice, err := dto.ToInvoiceDTO(input, AccountResponseDTO.ID)
+	invoice, err := dto.ToInvoiceDTO(&input, AccountResponseDTO.ID)
 	if err != nil {
 		return nil, err
 	}
