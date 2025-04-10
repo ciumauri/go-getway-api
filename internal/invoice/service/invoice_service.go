@@ -9,11 +9,11 @@ import (
 // InvoiceService is a service for invoices
 type InvoiceService struct {
 	invoiceRepository domain.InvoiceRepository
-	accountService    service.AccountService
+	accountService    *service.AccountService
 }
 
 // NewInvoiceService creates a new invoice service
-func NewInvoiceService(invoiceRepository domain.InvoiceRepository, accountService service.AccountService) *InvoiceService {
+func NewInvoiceService(invoiceRepository domain.InvoiceRepository, accountService *service.AccountService) *InvoiceService {
 	return &InvoiceService{
 		invoiceRepository: invoiceRepository,
 		accountService:    accountService,
@@ -22,12 +22,12 @@ func NewInvoiceService(invoiceRepository domain.InvoiceRepository, accountServic
 
 // CreateInvoice creates a new invoice
 func (s *InvoiceService) CreateInvoice(input dto.CreateInvoiceDTO) (*dto.InvoiceResponseDTO, error) {
-	AccountResponseDTO, err := s.accountService.GetByApiKey(input.ApiKey)
+	accountResponseDTO, err := s.accountService.GetByApiKey(input.ApiKey)
 	if err != nil {
 		return nil, err
 	}
 
-	invoice, err := dto.ToInvoiceDTO(&input, AccountResponseDTO.ID)
+	invoice, err := dto.ToInvoiceDTO(&input, accountResponseDTO.ID)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (s *InvoiceService) CreateInvoice(input dto.CreateInvoiceDTO) (*dto.Invoice
 	return dto.FromInvoiceDTO(invoice), nil
 }
 
-// GetInvoiceByID gets an invoice by ID
+// GetByID gets an invoice by ID
 func (s *InvoiceService) GetByID(id, apiKey string) (*dto.InvoiceResponseDTO, error) {
 	invoice, err := s.invoiceRepository.GetByID(id)
 	if err != nil {
