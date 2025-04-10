@@ -49,7 +49,7 @@ func ToInvoiceDTO(input *CreateInvoiceDTO, accountID string) (*domain.Invoice, e
 	}
 
 	return domain.NewInvoice(
-		input.ApiKey,
+		accountID,
 		input.Amount,
 		input.Description,
 		input.PaymentType,

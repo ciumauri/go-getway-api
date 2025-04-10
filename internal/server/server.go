@@ -39,8 +39,12 @@ func (s *Server) ConfigureRoutes() {
 	authMiddleware := middleware.NewAuthMiddleware(s.accountService)
 
 	// Account routes
-	s.router.Post("/account", accountHandler.CreateAccount)
-	s.router.Get("/account", accountHandler.GetAccount)
+	s.router.Post("/accounts", accountHandler.CreateAccount)
+
+	s.router.Group(func(r chi.Router) {
+		r.Use(authMiddleware.Authenticate)
+		r.Get("/accounts", accountHandler.GetAccount)
+	})
 
 	// Invoice routes with authentication
 	s.router.Group(func(r chi.Router) {

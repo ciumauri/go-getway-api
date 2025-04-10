@@ -4,16 +4,16 @@
 
 ### Criar uma nova conta
 # @name createAccount
-POST {{baseUrl}}/account
+POST {{baseUrl}}/accounts
 Content-Type: application/json
 
 {
-    "name": "John Doe",
-    "email": "john@doew.com"
+    "name": "John Doe2",
+    "email": "john2@doew.com"
 }
 
 ### Obter dados da conta
-GET {{baseUrl}}/account
+GET {{baseUrl}}/accounts
 X-API-Key: {{apiKey}}
 
 
