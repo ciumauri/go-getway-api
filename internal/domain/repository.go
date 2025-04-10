@@ -11,7 +11,7 @@ type AccountRepository interface {
 // InvoiceRepository is a repository for invoices
 type InvoiceRepository interface {
 	CreateInvoice(invoice *Invoice) error
-	GetByID(id string) (*Invoice, error)
 	GetByAccountID(accountID string) ([]*Invoice, error)
+	GetByID(id string) (*Invoice, error)
 	UpdateStatus(invoice *Invoice) error
 }
