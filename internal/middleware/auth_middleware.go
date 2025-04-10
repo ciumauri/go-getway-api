@@ -9,11 +9,11 @@ import (
 
 // AuthMiddleware is a middleware that checks if the request has a valid API key
 type AuthMiddleware struct {
-	accountService service.AccountService
+	accountService *service.AccountService
 }
 
 // NewAuthMiddleware creates a new AuthMiddleware
-func NewAuthMiddleware(accountService service.AccountService) *AuthMiddleware {
+func NewAuthMiddleware(accountService *service.AccountService) *AuthMiddleware {
 	return &AuthMiddleware{
 		accountService: accountService,
 	}
